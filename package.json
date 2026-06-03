@@ -1,0 +1,22 @@
+{
+	"name": "learning-postgres-notifications",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node ./app",
+		"monitor": "export NODE_ENV=development && nodemon ./app",
+		"monitor:container": "export NODE_ENV=development && nodemon ./app --legacy-watch"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"config": "4.4.1",
+		"dotenv-flow": "4.1.0",
+		"pg": "8.21.0"
+	},
+	"devDependencies": {
+		"nodemon": "3.1.14"
+	}
+}

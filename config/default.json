@@ -1,0 +1,13 @@
+{
+	"http": {
+		"port": "80"
+	},
+	"database": {
+		"user": "",
+		"password": "",
+		"host": "",
+		"port": "",
+		"database": "",
+		"ssl": ""
+	}
+}

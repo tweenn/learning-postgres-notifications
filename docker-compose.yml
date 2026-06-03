@@ -1,0 +1,58 @@
+name: learning_postgres_notification
+services:
+  application:
+    image: node:22-alpine
+    command:
+      [
+        ash,
+        -c,
+        "cd /usr/src/ && npm install && npm run monitor"
+      ]
+    environment:
+      - TZ=America/Sao_Paulo
+    ports:
+      - "5557:80"
+    networks:
+      - internal
+    volumes:
+      - ./app:/usr/src/app/
+      - ./config:/usr/src/config/
+      - ./.env:/usr/src/.env
+      - ./nodemon.json:/usr/src/nodemon.json
+      - ./package.json:/usr/src/package.json
+      - ./__containers__/app/node_modules:/usr/src/node_modules/
+      - ./__containers__/app/package-lock.json:/usr/src/package-lock.json
+    depends_on:
+      - postgres
+  # ============================================================================================
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'use-me'
+    ports:
+      - '5555:5432'
+    volumes:
+      - ./__containers__/postgres:/var/lib/postgresql/data
+    networks:
+      - internal
+  # ============================================================================================
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'learning@learning.com'
+      PGADMIN_DEFAULT_PASSWORD: 'learning'
+    ports:
+      - '5556:80'
+    volumes:
+      - ./__containers__/pgadmin/pgadmin4/servers.json:/pgadmin4/servers.json
+    depends_on:
+      - postgres
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
+    name: learning_postgres_notification
